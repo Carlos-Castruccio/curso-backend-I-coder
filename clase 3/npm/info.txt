@@ -1,0 +1,6 @@
+MAJOR: Cambios incompatibles que pueden romper funcionalidades.
+MINOR: Nuevas funcionalidades compatibles con versiones anteriores.
+PATCH: Correcciones de errores sin cambios en la API.
+
+^1.2.3: acepta actualizaciones que no cambien el número MAJOR (1.x.x)
+~1.2.3: acepta actualizaciones que no cambien el número MINOR (1.2.x)

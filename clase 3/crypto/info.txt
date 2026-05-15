@@ -1,0 +1,7 @@
+SHA256 Rápido es susceptible a brute force moderno, no ideal para passwords.
+
+bcrypt
+argon2
+scrypt
+
+librerias opensource

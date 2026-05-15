@@ -1,0 +1,5 @@
+{
+  "port": 8080,
+  "environment": "development",
+  "database": "mongodb://localhost:27017/ecommerce"
+}

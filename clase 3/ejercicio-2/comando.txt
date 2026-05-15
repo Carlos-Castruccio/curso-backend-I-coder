@@ -1,0 +1,5 @@
+echo "4
+npm init -y
+npm install --save express
+add script start node index.js
+add script dev nodemon index.js" | node index.js

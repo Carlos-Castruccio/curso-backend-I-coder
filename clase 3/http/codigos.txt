@@ -1,0 +1,8 @@
+200	OK
+201	Created por ej con POST
+204	No Content No hay nada para devolver. Ej al hacer un Delete
+400	Bad Request datos inválidos
+401	Unauthorized No autenticado
+403	Forbidden Autenticado pero sin permisos
+404	Not Found
+500	Internal Server Error
