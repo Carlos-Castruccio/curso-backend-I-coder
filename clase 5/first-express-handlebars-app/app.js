@@ -5,6 +5,7 @@ const usuariosRouter = require('./routes/usuarios');
 const ifEquals = require('./helpers/ifEquals');
 const perfilRouter = require('./routes/perfil')
 const productosRouter = require('./routes/productos');
+const uploadRouter = require('./routes/uploadRouter');
 
 
 const app = express();
@@ -38,7 +39,7 @@ app.get('/', (req, res) => {
 app.use(usuariosRouter);
 app.use(perfilRouter);
 app.use(productosRouter);
-
+app.use(uploadRouter)
 
 app.listen(3000, () => {
   console.log('Servidor escuchando en puerto 3000');
