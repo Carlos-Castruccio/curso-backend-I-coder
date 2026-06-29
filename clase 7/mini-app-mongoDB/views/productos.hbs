@@ -1,0 +1,33 @@
+<h1>Productos</h1>
+
+<!-- FORM CREAR -->
+<form action="/productos/crear" method="POST">
+  <input name="nombre" placeholder="Nombre" />
+  <input name="categoria" placeholder="Categoria" />
+  <input name="precio" placeholder="Precio" />
+  <input name="stock" placeholder="Stock" />
+  <button type="submit">Crear</button>
+</form>
+
+<hr>
+
+<!-- FILTRO -->
+<form method="GET" action="/productos">
+  <input name="categoria" placeholder="Filtrar por categoría" value="{{categoriaActual}}" />
+  <button type="submit">Filtrar</button>
+</form>
+
+<hr>
+
+<!-- LISTA -->
+<ul>
+  {{#each productos}}
+    <li>
+      <b>{{nombre}}</b> - {{categoria}} - ${{precio}} - Stock: {{stock}}
+
+      <form action="/productos/eliminar/{{_id}}" method="POST" style="display:inline;">
+        <button>Eliminar</button>
+      </form>
+    </li>
+  {{/each}}
+</ul>
