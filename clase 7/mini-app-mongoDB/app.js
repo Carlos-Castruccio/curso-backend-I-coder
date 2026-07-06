@@ -16,6 +16,7 @@ const __dirname = dirname(__filename);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 // Handlebars
 app.set('view engine', 'hbs');
 app.set('views', join(__dirname, 'views'));
@@ -25,6 +26,7 @@ mongoose.connect('mongodb://localhost:27017/tienda')
   .then(() => console.log('MongoDB conectado'))
   .catch(err => console.log(err));
 
+app.use(express.static("public"));
 // Routes
 app.use('/productos', productosRoutes);
 

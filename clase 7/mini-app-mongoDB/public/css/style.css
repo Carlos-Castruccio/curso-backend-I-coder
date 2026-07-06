@@ -1,0 +1,92 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 30px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+h1 {
+  color: #333;
+}
+
+.card {
+  background: white;
+  padding: 18px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.12);
+  margin-bottom: 20px;
+}
+
+.form {
+  display: grid;
+  gap: 10px;
+}
+
+.filters{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+input,
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.btn {
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #288ea7;
+}
+
+.btn-success {
+  background: #28a745;
+}
+
+.btn-danger {
+  background: #dc3545;
+}
+
+.error {
+  background: #f8d7da;
+  color: #842029;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.lista-productos{
+  display:grid;
+  gap:15px;
+}
+
+.producto h3{
+  margin:0 0 5px;
+}
+
+.producto p{
+  margin:4px 0;
+}
+
+.badge{
+  display:inline-block;
+  background:#ececec;
+  padding:3px 8px;
+  border-radius:20px;
+  font-size:.8rem;
+}

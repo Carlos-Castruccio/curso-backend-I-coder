@@ -1,42 +1,97 @@
 import express from "express";
-
-const router = express.Router();
 import Producto from "../models/Producto.js";
 
-// LISTAR + FILTRO
+const router = express.Router();
+
+// ==========================
+// LISTAR + FILTROS
+// ==========================
 router.get("/", async (req, res) => {
-  const categoria = req.query.categoria;
+  const { categoria, nombre, garantia, activo } = req.query;
 
-  const filtro = categoria ? { categoria } : {};
+  const filtro = {};
 
-  const error = req.query.error;
+  // Categoría
+  if (categoria) {
+    filtro.categoria = categoria;
+  }
+
+  // Regex
+  if (nombre) {
+    filtro.nombre = {
+      $regex: nombre,
+      $options: "i",
+    };
+  }
+
+  // Exists
+  if (garantia) {
+    filtro.garantia = { $exists: true };
+  }
+
+  // Boolean
+  if (activo) {
+    filtro.activo = true;
+  }
 
   const productos = await Producto.find(filtro);
 
   res.render("productos", {
     productos,
     categoriaActual: categoria || "",
-    error: error  ? "Datos inválidos": null
+    nombreActual: nombre || "",
+    garantiaActual: garantia || "",
+    activoActual: activo || "",
+    error: req.query.error ? "Datos inválidos." : null,
   });
 });
 
+// ==========================
 // CREAR
+// ==========================
 router.post("/crear", async (req, res) => {
-  const { nombre, categoria, precio, stock } = req.body;
   try {
-    await Producto.create(req.body);
+
+    const datos = {
+      ...req.body,
+
+      precio: Number(req.body.precio),
+      stock: Number(req.body.stock),
+
+      garantia: req.body.garantia
+        ? Number(req.body.garantia)
+        : undefined,
+
+      tags: req.body.tags
+        ? req.body.tags.split(",").map(tag => tag.trim())
+        : []
+    };
+
+    const producto = new Producto(datos);
+
+    await producto.save();
+
     return res.redirect("/productos");
+
   } catch (error) {
-    console.error("Error al crear el producto:", error);
+
+    console.log(error.message);
+
     return res.redirect("/productos?error=1");
   }
-  res.redirect("/productos");
 });
 
+// ==========================
 // ELIMINAR
+// ==========================
 router.post("/eliminar/:id", async (req, res) => {
-  await Producto.deleteOne({ _id: req.params.id });
+
+  await Producto.deleteOne({
+    _id: req.params.id,
+  });
+
   res.redirect("/productos");
+
 });
 
 export default router;

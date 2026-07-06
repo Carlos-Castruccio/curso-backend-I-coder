@@ -1,14 +1,48 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const productoSchema = new mongoose.Schema(
-  {
-    nombre: { type: String, required: true },
-    categoria: { type: String, required: true },
-    precio: { type: Number, required: true }
+const productoSchema = new mongoose.Schema({
+
+  nombre:{
+    type:String,
+    required:true,
+    trim:true
   },
-  { strict: false }
-);
 
-const Producto = mongoose.model("Producto", productoSchema);
+  categoria:{
+    type:String,
+    required:true
+  },
 
-export default Producto;
+  precio:{
+    type:Number,
+    required:true,
+    min:0
+  },
+
+  stock:{
+    type:Number,
+    required:true,
+    min:0
+  },
+
+  activo:{
+    type:Boolean,
+    default:true
+  },
+
+  tags:[String],
+
+  talles:String,
+
+  marca:String,
+
+  garantia:Number,
+
+  material:String
+
+},
+{
+  strict:false
+});
+
+export default mongoose.model("Producto", productoSchema);

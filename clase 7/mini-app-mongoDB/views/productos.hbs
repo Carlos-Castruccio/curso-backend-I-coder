@@ -1,101 +1,289 @@
+<div class="container">
 
-
-<div style="background:white; padding:15px; border-radius:10px; margin-bottom:20px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-<form action="/productos/crear" method="POST" style="display:grid; gap:10px;">
-<select id="categoria" name="categoria" onchange="renderCampos()" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
-  <option value="" style="padding:8px; border:1px solid #ccc; border-radius:5px;">Seleccionar</option>
-  <option value= "ropa" style="padding:8px; border:1px solid #ccc; border-radius:5px;">Ropa</option>
-  <option value="electronica" style="padding:8px; border:1px solid #ccc; border-radius:5px;">Electrónica</option>
-  <option value="muebles" style="padding:8px; border:1px solid #ccc; border-radius:5px;">Muebles</option>
-</select>
-  <input name="nombre" placeholder="Nombre" style="padding:8px; border:1px solid #ccc; border-radius:5px;"/>
-  <input name="precio" placeholder="Precio" style="padding:8px; border:1px solid #ccc; border-radius:5px;"/>
-  <input name="stock" placeholder="Stock" style="padding:8px; border:1px solid #ccc; border-radius:5px;"/>
-  <div id="camposExtra"></div>
-  <button type="submit" style="background:#288ea7; color:white; border:none; padding:8px 12px; border-radius:5px;">Crear</button>
-</form>
-</div>
+    <h1>Mini Tienda MongoDB + Mongoose</h1>
 
     {{#if error}}
-      <div style="background:#f8d7da; color:#721c24; padding:10px; border-radius:6px; margin-bottom:10px;">
-        {{error}}
-      </div>
-    {{/if}}
-<hr>
-
-<!-- FILTRO -->
-<form method="GET" action="/productos" style="margin-bottom:20px; display:flex; gap:10px;">
-  <select id="categoria" name="categoria" value="{{categoriaActual}}" style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc;">
-  <option value="">Seleccionar</option>
-  <option value="ropa">Ropa</option>
-  <option value="electronica">Electrónica</option>
-  <option value="muebles">Muebles</option>
-</select>
-  <button style="background:#28a745; color:white; border:none; padding:8px 12px; border-radius:5px;" type="submit">Filtrar</button>
-</form>
-</div>
-<hr>
-
-    <div style="display:grid; gap:10px;">
-      
-      {{#each productos}}
-        <div style="background:white; padding:15px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-
-          <h3 style="margin:0 0 5px 0;">{{nombre}}</h3>
-
-          <p style="margin:0 0 8px 0; color:#555;">
-            <b>{{categoria}}</b> - ${{precio}}
-          </p>
-
-          {{#if stock}}
-            <p style="margin:0;">📦 Stock: {{stock}}</p>
-          {{/if}}
-
-          {{#if talles}}
-            <p style="margin:0;">👕 Talles: {{talles}}</p>
-          {{/if}}
-
-          {{#if marca}}
-            <p style="margin:0;">🏷️ Marca: {{marca}}</p>
-          {{/if}}
-
-          <form action="/productos/eliminar/{{_id}}" method="POST" style="margin-top:10px;">
-            <button style="background:#dc3545; color:white; border:none; padding:6px 10px; border-radius:5px; cursor:pointer;">
-              Eliminar
-            </button>
-          </form>
-
+        <div class="error">
+            {{error}}
         </div>
-      {{/each}}
+    {{/if}}
+
+    <!-- ===================== -->
+    <!-- CREAR -->
+    <!-- ===================== -->
+
+    <div class="card">
+
+        <h2>Nuevo producto</h2>
+
+        <form class="form" action="/productos/crear" method="POST">
+
+            <select
+                id="categoriaCrear"
+                name="categoria"
+                onchange="renderCampos()">
+
+                <option value="">Seleccionar categoría</option>
+                <option value="ropa">Ropa</option>
+                <option value="electronica">Electrónica</option>
+                <option value="muebles">Muebles</option>
+
+            </select>
+
+            <input
+                name="nombre"
+                placeholder="Nombre">
+
+            <input
+                name="precio"
+                placeholder="Precio">
+
+            <input
+                name="stock"
+                placeholder="Stock">
+
+            <input
+                name="tags"
+                placeholder="Tags separados por coma">
+
+            <div id="camposExtra"></div>
+
+            <button class="btn btn-primary">
+                Crear producto
+            </button>
+
+        </form>
 
     </div>
 
+    <!-- ===================== -->
+    <!-- FILTROS -->
+    <!-- ===================== -->
+
+    <div class="card">
+
+        <h2>Buscar productos</h2>
+
+        <form
+            class="filters"
+            action="/productos"
+            method="GET">
+
+            <select name="categoria">
+
+                <option value="">Todas</option>
+                <option value="ropa">Ropa</option>
+                <option value="electronica">Electrónica</option>
+                <option value="muebles">Muebles</option>
+
+            </select>
+
+            <input
+                name="nombre"
+                placeholder="Buscar por nombre"
+                value="{{nombreActual}}">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    name="garantia"
+                    value="1"
+                    {{#if garantiaActual}}checked{{/if}}>
+
+                Con garantía
+
+            </label>
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    name="activo"
+                    value="1"
+                    {{#if activoActual}}checked{{/if}}>
+
+                Solo activos
+
+            </label>
+
+            <button class="btn btn-success">
+                Buscar
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- LISTADO -->
+    <!-- ===================== -->
+
+    <div class="lista-productos">
+
+        {{#each productos}}
+
+            <div class="card producto">
+
+                <h3>{{nombre}}</h3>
+
+                <p>
+
+                    <span class="badge">
+
+                        {{categoria}}
+
+                    </span>
+
+                    <strong>${{precio}}</strong>
+
+                </p>
+
+                <p>
+
+                    📦 Stock: {{stock}}
+
+                </p>
+
+                {{#if talles}}
+
+                    <p>
+
+                        👕 Talles: {{talles}}
+
+                    </p>
+
+                {{/if}}
+
+                {{#if marca}}
+
+                    <p>
+
+                        🏷️ Marca: {{marca}}
+
+                    </p>
+
+                {{/if}}
+
+                {{#if garantia}}
+
+                    <p>
+
+                        🛡️ Garantía: {{garantia}} meses
+
+                    </p>
+
+                {{/if}}
+
+                {{#if material}}
+
+                    <p>
+
+                        🪵 Material: {{material}}
+
+                    </p>
+
+                {{/if}}
+
+                {{#if tags.length}}
+
+                    <p>
+
+                        Tags:
+
+                        {{#each tags}}
+
+                            <span class="badge">
+
+                                {{this}}
+
+                            </span>
+
+                        {{/each}}
+
+                    </p>
+
+                {{/if}}
+
+                <form
+                    action="/productos/eliminar/{{_id}}"
+                    method="POST">
+
+                    <button
+                        class="btn btn-danger">
+
+                        Eliminar
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        {{/each}}
+
+    </div>
+
+</div>
+
 <script>
-function renderCampos() {
-  const categoria = document.getElementById("categoria").value;
-  const container = document.getElementById("camposExtra");
 
-  container.innerHTML = "";
+function renderCampos(){
 
-  if (categoria === "ropa") {
-    container.innerHTML = `
-      <input name="talles" placeholder="Talles (S,M,L)" style="padding:8px; border:1px solid #ccc; border-radius:5px;" />
-    `;
-  }
+    const categoria=document.getElementById("categoriaCrear").value;
 
-  if (categoria === "electronica") {
-    container.innerHTML = `
-      <input name="marca" placeholder="Marca" style="padding:8px; border:1px solid #ccc; border-radius:5px;" />
-      <input name="garantia" placeholder="Garantía (meses)" style="padding:8px; border:1px solid #ccc; border-radius:5px;" />
-    `;
-  }
+    const container=document.getElementById("camposExtra");
 
-  if (categoria === "muebles") {
-    container.innerHTML = `
-      <input name="material" placeholder="Material" style="padding:8px; border:1px solid #ccc; border-radius:5px;" />
-      <input name="ancho" placeholder="Ancho" style="padding:8px; border:1px solid #ccc; border-radius:5px;" />
-      <input name="alto" placeholder="Alto" style="padding:8px; border:1px solid #ccc; border-radius:5px;" />
-    `;
-  }
+    container.innerHTML="";
+
+    if(categoria==="ropa"){
+
+        container.innerHTML=`
+
+            <input
+                name="talles"
+                placeholder="Talles (S,M,L)">
+
+        `;
+
+    }
+
+    if(categoria==="electronica"){
+
+        container.innerHTML=`
+
+            <input
+                name="marca"
+                placeholder="Marca">
+
+            <input
+                name="garantia"
+                placeholder="Garantía (meses)">
+
+        `;
+
+    }
+
+    if(categoria==="muebles"){
+
+        container.innerHTML=`
+
+            <input
+                name="material"
+                placeholder="Material">
+
+            <input
+                name="alto"
+                placeholder="Alto">
+
+            <input
+                name="ancho"
+                placeholder="Ancho">
+
+        `;
+
+    }
+
 }
+
 </script>
